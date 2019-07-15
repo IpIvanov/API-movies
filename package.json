@@ -1,0 +1,36 @@
+{
+  "name": "node-js-mongodb",
+  "version": "0.2.6",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "6.11.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "ejs": "2.6.2",
+    "express": "4.17.1",
+    "express-livereload": "0.0.24",
+    "moment": "^2.24.0",
+    "mongodb": "^3.2.7",
+    "nodemon": "^1.19.1",
+    "puppeteer": "^1.18.1",
+    "request": "^2.88.0",
+    "tape": "^4.11.0"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IpIvanov/node-js-mongodb.git"
+  },
+  "license": "MIT"
+}
