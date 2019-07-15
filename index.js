@@ -11,7 +11,7 @@ app.use('/api', router);
 
 const MongoClient = require('mongodb').MongoClient;
 const mongoURL =
-  'mongodb://herokuUser:user332211@ds117965.mlab.com:17965/heroku_jj0khzm2';
+  'mongodb://heroku_user_22:test2211@ds019846.mlab.com:19846/heroku_9jsc792b';
 
 // all of our routes will be prefixed with /api
 
@@ -27,18 +27,18 @@ app.get('/', (request, response) => {
   response.sendFile(__dirname + '/index.html');
 });
 
-const DB_NAME = 'heroku_jj0khzm2';
+const DB_NAME = 'heroku_9jsc792b';
 
 const connectDB = (callback) => {
   return MongoClient.connect(mongoURL, { useNewUrlParser: true }, callback);
 }
 
-router.get('/signs', (request, response) => {
+router.get('/movies', (request, response) => {
   connectDB((err, client) => {
     if (err) throw err;
     const db = client.db(DB_NAME);
     db
-      .collection('signs')
+      .collection('movies')
       .find({})
       .toArray((err, result) => {
         if (err) throw err;
