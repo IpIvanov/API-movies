@@ -1,88 +1,52 @@
 const express = require('express');
-const app = express();
+const logger = require('morgan');
+const movies = require('./routes/movies');
+const users = require('./routes/users');
 const bodyParser = require('body-parser');
-const router = express.Router();
+const mongoose = require('./config/database'); //database configuration
+const jwt = require('jsonwebtoken');
+const app = express();
 
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use('/api', router);
+app.set('secretKey', 'nodeRestApi'); // jwt secret token
+// connection to mongodb
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const MongoClient = require('mongodb').MongoClient;
-const mongoURL = process.env.MONGODB_URI;
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// all of our routes will be prefixed with /api
-
-app.set('port', process.env.PORT || 5000);
-
-app.use(express.static(__dirname + '/public'));
-
-app.listen(app.get('port'), () => {
-  console.log('Node app is running on port', app.get('port'));
-});
-
-app.get('/', (request, response) => {
-  response.sendFile(__dirname + '/index.html');
-});
-
-const DB_NAME = 'heroku_bnt9bl0n';
-
-const connectDB = (callback) => {
-  MongoClient.connect(mongoURL, { useNewUrlParser: true }, callback);
+const validateUser = (req, res, next) => {
+  jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded) {
+    if (err) {
+      res.json({ status: "error", message: err.message, data: null });
+    } else {
+      // add user id to request
+      req.body.userId = decoded.id;
+      next();
+    }
+  });
 }
 
-router.get('/movies', (request, response) => {
-  connectDB((err, client) => {
-    if (err) throw err;
-    const db = client.db(DB_NAME);
-    db
-      .collection('movies')
-      .find({})
-      .toArray((err, result) => {
-        if (err) throw err;
-        response.json(result);
-        client.close();
-      });
-  });
+// public routes
+app.use('/users', users);
+// private route
+app.use('/movies', validateUser, movies);
+
+// express doesn't consider not found 404 as an error so we need to handle 404 explicitly
+// handle 404 error
+app.use((req, res, next) => {
+  let err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
+// handle errors
+app.use((err, req, res, next) => {
+  console.log(err);
 
-router.post('/sign', (request, response) => {
-  let sign = request.body.sign;
-
-  connectDB((err, client) => {
-    if (err) throw err;
-    const db = client.db(DB_NAME);
-    db.collection('signs').findOne({ name: sign }, (err, result) => {
-      if (err) throw err;
-      response.json(result);
-      client.close();
-    });
-  });
+  if (err.status === 404)
+    res.status(404).json({ message: "Not found" });
+  else
+    res.status(500).json({ message: "Something went wrong :( !!!" });
 });
-
-router.get('/birthday-horoscope', (request, response) => {
-  connectDB((err, client) => {
-    if (err) throw err;
-    const db = client.db(DB_NAME);
-    db
-      .collection('birthday-horoscope-today')
-      .findOne({}, (err, result) => {
-        if (err) throw err;
-        response.json(result);
-        client.close();
-      });
-  });
-});
-
-router.get('/app-version', (request, response) => {
-  connectDB((err, client) => {
-    if (err) throw err;
-    const db = client.db(DB_NAME);
-    db.collection('app-version').findOne({}, (err, result) => {
-      if (err) throw err;
-      response.json(result);
-      client.close();
-    });
-  });
+app.listen(3000, () => {
+  console.log('Node server listening on port 3000');
 });
