@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use('/api', router);
 
 const MongoClient = require('mongodb').MongoClient;
-const mongoURL = 'mongodb://newuser:newuser2211@ds343895.mlab.com:43895/heroku_bnt9bl0n';
+const mongoURL = process.env.MONGODB_URI;
 
 // all of our routes will be prefixed with /api
 
