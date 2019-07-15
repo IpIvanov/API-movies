@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const app = express();
 
 app.set('secretKey', 'nodeRestApi'); // jwt secret token
+app.set('port', process.env.PORT || 5000);
+
 // connection to mongodb
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -47,6 +49,6 @@ app.use((err, req, res, next) => {
   else
     res.status(500).json({ message: "Something went wrong :( !!!" });
 });
-app.listen(3000, () => {
-  console.log('Node server listening on port 3000');
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Node server listening on port ${process.env.PORT || 5000}`);
 });
