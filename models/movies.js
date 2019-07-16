@@ -11,6 +11,7 @@ const MovieSchema = new Schema({
     type: Date,
     trim: true,
     required: true
-  }
+  },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 module.exports = mongoose.model('Movie', MovieSchema)

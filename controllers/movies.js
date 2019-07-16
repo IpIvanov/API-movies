@@ -15,7 +15,11 @@ module.exports = {
       if (err) {
         next(err);
       } else {
-        const moviesList = movies.map((movie) => ({ id: movie._id, name: movie.name, released_on: movie.released_on }))
+        const moviesList = movies.filter((movie) => {
+          if (movie.userId.toString() === req.body.userId) {
+            return { id: movie._id, name: movie.name, released_on: movie.released_on };
+          }
+        })
         res.json({ status: "success", message: "Movies list found", data: { movies: moviesList } });
       }
     });
@@ -39,7 +43,7 @@ module.exports = {
     });
   },
   create: (req, res, next) => {
-    movieModel.create({ name: req.body.name, released_on: req.body.released_on }, (err, result) => {
+    movieModel.create({ name: req.body.name, released_on: req.body.released_on, userId: req.body.userId }, (err, result) => {
       if (err)
         next(err);
       else
