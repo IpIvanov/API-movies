@@ -47,7 +47,7 @@ app.use((err, req, res, next) => {
   if (err.status === 404)
     res.status(404).json({ message: "Not found" });
   else
-    res.status(500).json({ message: "Something went wrong :( !!!" });
+    res.status(500).json({ message: "Something went wrong" });
 });
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Node server listening on port ${process.env.PORT || 5000}`);

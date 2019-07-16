@@ -43,7 +43,12 @@ module.exports = {
     });
   },
   create: (req, res, next) => {
-    movieModel.create({ name: req.body.name, released_on: req.body.released_on, userId: req.body.userId }, (err, result) => {
+    movieModel.create({
+      name: req.body.name,
+      released_on: req.body.released_on,
+      disk: req.body.disk,
+      userId: req.body.userId
+    }, (err, result) => {
       if (err)
         next(err);
       else
