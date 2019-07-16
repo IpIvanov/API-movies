@@ -22,11 +22,13 @@ module.exports = {
         });
 
         if (!userNameExists && !emailExists) {
-          userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password }, (err, result) => {
+          userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password }, (err, userInfo) => {
             if (err)
               next(err);
-            else
-              res.json({ status: "success", message: "User added", data: null });
+            else {
+              const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), { expiresIn: '7d' });
+              res.json({ status: "success", message: "User added", data: { user: userInfo, token: token } });
+            }
           });
         } else {
           res.json({ status: "warning", message: "User already exists", data: { userNameExists, emailExists } })
