@@ -15,6 +15,11 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const validateUser = (req, res, next) => {
   jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded) {
