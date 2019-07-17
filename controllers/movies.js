@@ -25,6 +25,7 @@ module.exports = {
       name: req.body.name,
       released_on: req.body.released_on,
       disk: req.body.disk,
+      rating: req.body.rating,
     }, (err, movieInfo) => {
       if (err)
         next(err);
