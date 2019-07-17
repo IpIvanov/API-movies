@@ -6,7 +6,7 @@ const mongoose = require('./config/database'); //database configuration
 const jwt = require('jsonwebtoken');
 const app = express();
 
-app.set('secretKey', 'nodeRestApi'); // jwt secret token
+app.set('secretKey', process.env.JWT_KEY); // jwt secret token
 app.set('port', process.env.PORT || 5000);
 
 // connection to mongodb
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use((req, res, next) => {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin', 'https://afternoon-chamber-67331.herokuapp.com');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
