@@ -15,11 +15,7 @@ module.exports = {
       if (err) {
         next(err);
       } else {
-        const moviesList = movies.filter((movie) => {
-          if (movie.userId.toString() === req.body.userId) {
-            return { id: movie._id, name: movie.name, released_on: movie.released_on };
-          }
-        })
+        const moviesList = movies.filter((movie) => (movie.userId.toString() === req.body.userId))
         res.json({ status: "success", message: "Movies list found", data: { movies: moviesList } });
       }
     });
@@ -51,8 +47,16 @@ module.exports = {
     }, (err, result) => {
       if (err)
         next(err);
-      else
-        res.json({ status: "success", message: "Movie added successfully", data: null });
+      else {
+        movieModel.find({}, (err, movies) => {
+          if (err) {
+            next(err);
+          } else {
+            const moviesList = movies.filter((movie) => (movie.userId.toString() === req.body.userId))
+            res.json({ status: "success", message: "Movie added successfully", data: { movies: moviesList } });
+          }
+        });
+      }
     });
   },
 }
