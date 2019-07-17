@@ -8,7 +8,7 @@ const MovieSchema = new Schema({
     required: true,
   },
   released_on: {
-    type: Date,
+    type: String,
     trim: true,
     required: true
   },
