@@ -25,7 +25,14 @@ module.exports = {
       if (err)
         next(err);
       else {
-        res.json({ status: "success", message: "Movie updated successfully", data: null });
+        movieModel.find({}, (err, movies) => {
+          if (err) {
+            next(err);
+          } else {
+            const moviesList = movies.filter((movie) => (movie.userId.toString() === req.body.userId))
+            res.json({ status: "success", message: "Movie updated successfully", data: { movies: moviesList } });
+          }
+        });
       }
     });
   },
@@ -34,7 +41,14 @@ module.exports = {
       if (err)
         next(err);
       else {
-        res.json({ status: "success", message: "Movie deleted successfully", data: null });
+        movieModel.find({}, (err, movies) => {
+          if (err) {
+            next(err);
+          } else {
+            const moviesList = movies.filter((movie) => (movie.userId.toString() === req.body.userId))
+            res.json({ status: "success", message: "Movie deleted successfully", data: { movies: moviesList } });
+          }
+        });
       }
     });
   },
