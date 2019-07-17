@@ -17,7 +17,7 @@ app.use(express.json());
 app.use((req, res, next) => {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'https://afternoon-chamber-67331.herokuapp.com');
+  res.setHeader('Access-Control-Allow-Origin', 'https://boiling-beyond-68722.herokuapp.com/');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
