@@ -21,7 +21,11 @@ module.exports = {
     });
   },
   updateById: (req, res, next) => {
-    movieModel.findByIdAndUpdate(req.params.movieId, { name: req.body.name }, (err, movieInfo) => {
+    movieModel.findByIdAndUpdate(req.params.movieId, {
+      name: req.body.name,
+      released_on: req.body.released_on,
+      disk: req.body.disk,
+    }, (err, movieInfo) => {
       if (err)
         next(err);
       else {
