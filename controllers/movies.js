@@ -26,7 +26,8 @@ module.exports = {
       released_on: req.body.released_on,
       disk: req.body.disk,
       rating: req.body.rating,
-      isWatched: req.body.isWatched
+      isWatched: req.body.isWatched,
+      genres: req.body.genres,
     }, (err, movieInfo) => {
       if (err)
         next(err);
@@ -63,7 +64,8 @@ module.exports = {
       name: req.body.name,
       released_on: req.body.released_on,
       disk: req.body.disk,
-      userId: req.body.userId
+      genres: req.body.genres,
+      userId: req.body.userId,
     }, (err, result) => {
       if (err)
         next(err);
