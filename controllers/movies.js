@@ -26,7 +26,7 @@ module.exports = {
       released_on: req.body.released_on,
       disk: req.body.disk,
       rating: req.body.rating,
-      rating: req.body.isWatched
+      isWatched: req.body.isWatched
     }, (err, movieInfo) => {
       if (err)
         next(err);
