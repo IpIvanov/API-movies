@@ -28,7 +28,7 @@ const MovieSchema = new Schema({
   genres: {
     type: Array,
     required: true,
-  }
+  },
   userId: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 module.exports = mongoose.model('Movie', MovieSchema)
