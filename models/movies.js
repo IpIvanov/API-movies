@@ -21,6 +21,10 @@ const MovieSchema = new Schema({
     type: Number,
     default: 0,
   },
+  isWatched: {
+    type: Boolean,
+    default: false,
+  },
   userId: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 module.exports = mongoose.model('Movie', MovieSchema)
